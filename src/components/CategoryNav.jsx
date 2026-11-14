@@ -9,8 +9,14 @@ const CategoryNav = ({ categories, query, onQuery }) => {
   const { title } = useLang()
 
   useEffect(() => {
+    // At the very bottom of the page the last (short) section can never reach the highlight line,
+    // so highlight the last visible category instead.
+    const lastId = () => [...categories].reverse().find((c) => document.getElementById(c.id))?.id
+    const atBottom = () => window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 4
+
     const observer = new IntersectionObserver(
       (entries) => {
+        if (atBottom()) return setActive(lastId())
         const visible = entries.filter((e) => e.isIntersecting)
         if (visible.length) setActive(visible[0].target.id)
       },
@@ -20,14 +26,32 @@ const CategoryNav = ({ categories, query, onQuery }) => {
       const el = document.getElementById(c.id)
       if (el) observer.observe(el)
     })
-    return () => observer.disconnect()
+
+    // Back above the first section (near the top of the page): highlight the first category again.
+    const onScroll = () => {
+      if (atBottom()) return setActive(lastId())
+      const first = categories.find((c) => document.getElementById(c.id))
+      if (first && document.getElementById(first.id).getBoundingClientRect().top > window.innerHeight * 0.35) {
+        setActive(first.id)
+      }
+    }
+    window.addEventListener('scroll', onScroll, { passive: true })
+    return () => {
+      observer.disconnect()
+      window.removeEventListener('scroll', onScroll)
+    }
   }, [categories])
 
-  // Keep the active tab visible inside the scrolling bar.
+  // Keep the active tab centred inside the scrolling tab strip.
+  // Scroll only the strip sideways: scrollIntoView() would also nudge the whole page up/down.
   useEffect(() => {
-    barRef.current
-      ?.querySelector(`[data-id="${active}"]`)
-      ?.scrollIntoView({ inline: 'center', block: 'nearest' })
+    const bar = barRef.current
+    const tab = bar?.querySelector(`[data-id="${active}"]`)
+    if (!bar || !tab) return
+    const b = bar.getBoundingClientRect()
+    const r = tab.getBoundingClientRect()
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    bar.scrollBy({ left: r.left - b.left - (b.width - r.width) / 2, behavior: reduce ? 'auto' : 'smooth' })
   }, [active])
 
   return (
