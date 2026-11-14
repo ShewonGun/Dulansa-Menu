@@ -14,7 +14,10 @@
       rel="stylesheet"
     />
     <meta name="color-scheme" content="light dark" />
-    <meta name="theme-color" content="#2f6b4a" />
+    <!-- Colour of the phone's status bar / browser bar: matches the page background in each theme.
+         (Updated by script when the guest picks a theme manually; see the inline script and src/theme.js.) -->
+    <meta name="theme-color" media="(prefers-color-scheme: light)" content="#faf8f4" />
+    <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#121714" />
     <link rel="manifest" href="/manifest.webmanifest" />
     <!-- Search engines and link previews (WhatsApp, Facebook, etc.) -->
     <meta property="og:type" content="website" />
@@ -22,7 +25,8 @@
     <meta property="og:title" content="Food Menu | Dulansa Kumbuk Sewana Resort" />
     <meta property="og:description" content="Fried rice, kottu, noodles, biriyani and more. See the full menu with prices." />
     <meta property="og:locale" content="en_LK" />
-    <meta property="og:locale:alternate" content="si_LK" />    <meta name="twitter:card" content="summary" />
+    <meta property="og:locale:alternate" content="si_LK" />
+    <meta name="twitter:card" content="summary" />
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
@@ -39,10 +43,15 @@
       }
     </script>
     <script>
-      // Apply a saved theme before first paint to avoid a light flash.
+      // Apply a saved theme before first paint to avoid a light flash (page and status bar colour).
       try {
         var t = localStorage.getItem('theme')
-        if (t === 'light' || t === 'dark') document.documentElement.dataset.theme = t
+        if (t === 'light' || t === 'dark') {
+          document.documentElement.dataset.theme = t
+          var c = t === 'dark' ? '#121714' : '#faf8f4'
+          var m = document.querySelectorAll('meta[name="theme-color"]')
+          for (var i = 0; i < m.length; i++) m[i].setAttribute('content', c)
+        }
       } catch (e) {}
     </script>
     <title>Food Menu | Dulansa Kumbuk Sewana Resort</title>

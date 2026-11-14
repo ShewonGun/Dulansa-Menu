@@ -32,6 +32,13 @@ export const useTheme = () => {
 
   const dark = choice ? choice === 'dark' : systemDark
 
+  // Keep the phone's status-bar colour in step with the page background.
+  // Both tags are set so it works even when the guest's choice differs from the device setting.
+  useEffect(() => {
+    const color = dark ? '#121714' : '#faf8f4'
+    document.querySelectorAll('meta[name="theme-color"]').forEach((m) => m.setAttribute('content', color))
+  }, [dark])
+
   const toggle = () => {
     const next = dark ? 'light' : 'dark'
     setChoice(next)
