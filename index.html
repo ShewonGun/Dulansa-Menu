@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
+    <link rel="icon" type="image/png" sizes="192x192" href="/icon-192.png" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Food menu of Dulansa Kumbuk Sewana Resort: fried rice, kottu, noodles, biriyani and more." />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Inter:wght@400;500;600&family=Noto+Sans+Sinhala:wght@400;500;600&family=Abhaya+Libre:wght@500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <meta name="color-scheme" content="light dark" />
+    <meta name="theme-color" content="#2f6b4a" />
+    <link rel="manifest" href="/manifest.webmanifest" />
+    <!-- Search engines and link previews (WhatsApp, Facebook, etc.) -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Dulansa Kumbuk Sewana Resort" />
+    <meta property="og:title" content="Food Menu | Dulansa Kumbuk Sewana Resort" />
+    <meta property="og:description" content="Fried rice, kottu, noodles, biriyani and more. See the full menu with prices." />
+    <meta property="og:locale" content="en_LK" />
+    <meta property="og:locale:alternate" content="si_LK" />    <meta name="twitter:card" content="summary" />
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Restaurant",
+        "name": "Dulansa Kumbuk Sewana Resort",
+        "telephone": "+94 33 220 4444",
+        "address": {
+          "@type": "PostalAddress",
+          "addressLocality": "Yakkala",
+          "addressCountry": "LK"
+        },
+        "servesCuisine": ["Sri Lankan", "Chinese", "Indonesian"],
+        "availableLanguage": ["en", "si"]
+      }
+    </script>
+    <script>
+      // Apply a saved theme before first paint to avoid a light flash.
+      try {
+        var t = localStorage.getItem('theme')
+        if (t === 'light' || t === 'dark') document.documentElement.dataset.theme = t
+      } catch (e) {}
+    </script>
+    <title>Food Menu | Dulansa Kumbuk Sewana Resort</title>
+  </head>
+  <body>
+    <noscript>
+      <p style="padding: 2rem; text-align: center; font-family: sans-serif">
+        Dulansa Kumbuk Sewana Resort &ndash; Food Menu. Please turn on JavaScript to view the menu, or call 033 220 4444.
+      </p>
+    </noscript>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>

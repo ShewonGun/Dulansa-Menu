@@ -1,0 +1,129 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Inter", "Noto Sans Sinhala", ui-sans-serif, system-ui, sans-serif;
+  --font-serif: "Fraunces", "Abhaya Libre", ui-serif, Georgia, serif;
+
+  --color-paper: #faf8f4;
+  --color-surface: #ffffff;
+  --color-ink: #1f2a24;
+  --color-muted: #5f6a5d;
+  --color-line: #e6e1d6;
+  --color-leaf-50: #eef4ee;
+  --color-leaf-600: #2f6b4a;
+  --color-leaf-700: #265a3d;
+  --color-accent: #265a3d;
+}
+
+/* Dark palette: applied when the device prefers dark (unless the guest chose light)... */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --color-paper: #121714;
+    --color-surface: #1a211d;
+    --color-ink: #eceee9;
+    --color-muted: #9aa597;
+    --color-line: #2a332d;
+    --color-leaf-50: #1b2b21;
+    --color-accent: #7fc79b;
+  }
+}
+
+/* ...or when the guest chose dark explicitly. */
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --color-paper: #121714;
+  --color-surface: #1a211d;
+  --color-ink: #eceee9;
+  --color-muted: #9aa597;
+  --color-line: #2a332d;
+  --color-leaf-50: #1b2b21;
+  --color-accent: #7fc79b;
+}
+
+/* Logo: black version in light mode, white version in dark mode. */
+.logo-dark {
+  display: none;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .logo-light {
+    display: none;
+  }
+  :root:not([data-theme="light"]) .logo-dark {
+    display: block;
+  }
+}
+
+:root[data-theme="dark"] .logo-light {
+  display: none;
+}
+
+:root[data-theme="dark"] .logo-dark {
+  display: block;
+}
+
+/* Print / save-as-PDF: always black on white, whatever the screen theme. */
+/* Zero page margin stops the browser printing its own header/footer (page address, date, page numbers).
+   The 12mm spacing is added back inside the page by .print-frame below. */
+@page {
+  margin: 0;
+}
+
+@media print {
+  .print-frame {
+    padding: 12mm;
+    /* Repeat the padding on every printed page, not just the first and last. */
+    box-decoration-break: clone;
+    -webkit-box-decoration-break: clone;
+  }
+
+  /* Paper is white, so always use the black logo. */
+  .logo-light {
+    display: block !important;
+  }
+  .logo-dark {
+    display: none !important;
+  }
+
+  :root,
+  :root[data-theme="dark"],
+  :root:not([data-theme="light"]) {
+    color-scheme: light;
+    --color-paper: #ffffff;
+    --color-surface: #ffffff;
+    --color-ink: #1f2a24;
+    --color-muted: #55604f;
+    --color-line: #d8d3c7;
+    --color-accent: #265a3d;
+  }
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 5rem;
+}
+
+/* Abhaya Libre (the formal Sinhala heading font) runs smaller than Latin type, so enlarge Sinhala headings a little. */
+html[lang="si"] .font-serif {
+  zoom: 1.12;
+}
+
+/* Visible keyboard focus everywhere. */
+:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+}
+
+body {
+  background: var(--color-paper);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
