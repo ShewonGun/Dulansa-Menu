@@ -58,9 +58,11 @@ const CategoryNav = ({ categories, query, onQuery }) => {
   }, [active])
 
   return (
-    <div className="sticky top-0 z-10 border-b border-line bg-paper/95 backdrop-blur print:hidden">
+    // Plain `bg-paper` (no "/95" opacity): the opacity version compiles to a fixed light colour on older
+    // phone browsers, which then ignore dark mode.
+    <div className="sticky top-0 z-10 border-b border-line bg-paper print:hidden">
       <div className="mx-auto flex max-w-5xl items-center gap-3 px-5 py-2">
-        <nav ref={barRef} className="flex flex-1 gap-1 overflow-x-auto overscroll-x-contain [scrollbar-width:none]" aria-label="Menu categories">
+        <nav ref={barRef} className="flex flex-1 gap-1 no-scrollbar overflow-x-auto overscroll-x-contain" aria-label="Menu categories">
           {categories.map((c) => (
             <a
               key={c.id}
