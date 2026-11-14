@@ -51,13 +51,16 @@ const CategoryNav = ({ categories, query, onQuery }) => {
     const b = bar.getBoundingClientRect()
     const r = tab.getBoundingClientRect()
     const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches
-    bar.scrollBy({ left: r.left - b.left - (b.width - r.width) / 2, behavior: reduce ? 'auto' : 'smooth' })
+    // Absolute target (not "move by N"): if several tabs change in quick succession, e.g. after the
+    // back-to-top button, the last call always wins instead of earlier moves piling up.
+    const target = bar.scrollLeft + (r.left - b.left) - (b.width - r.width) / 2
+    bar.scrollTo({ left: Math.max(0, target), behavior: reduce ? 'auto' : 'smooth' })
   }, [active])
 
   return (
     <div className="sticky top-0 z-10 border-b border-line bg-paper/95 backdrop-blur print:hidden">
       <div className="mx-auto flex max-w-5xl items-center gap-3 px-5 py-2">
-        <nav ref={barRef} className="flex flex-1 gap-1 overflow-x-auto [scrollbar-width:none]" aria-label="Menu categories">
+        <nav ref={barRef} className="flex flex-1 gap-1 overflow-x-auto overscroll-x-contain [scrollbar-width:none]" aria-label="Menu categories">
           {categories.map((c) => (
             <a
               key={c.id}
